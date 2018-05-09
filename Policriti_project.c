@@ -11,51 +11,47 @@ struct node
 typedef struct node NODE;
 
 NODE* bst_insert(NODE* n, char key);
-void print_bst(NODE* n);
+void bst_print(NODE* n);
+NODE* read_input();
 
 int main(){
-    NODE* root = NULL;
-    root = bst_insert(root, 'c');
-    root = bst_insert(root, 'a');
-    root = bst_insert(root, 'z');
 
-    print_bst(root);
+    NODE* root = read_input();
+    bst_print(root);
     return 0;
     
 }
 
-NODE* bst_insert(NODE* n, char key){
-    if(n == NULL){
+NODE* bst_insert(NODE* n, char key){ //Inserisce un nodo nel bst
+    if(n == NULL){ //CASO BASE: primo inserimento
         n = (NODE*)malloc(sizeof(NODE)); //Allocato memoria per n
         n->key = key;
         n->left = NULL;
         n->right = NULL;
-        return n;
-        
-    }else{
-        if(n->key > key){
-            if(n->left == NULL){
-                n->left = bst_insert(n->left, key);
-                return n;
-            }else{
-                return bst_insert(n->left, key);
-            }
-        }else{
-            if(n->right == NULL){
-                n->right = bst_insert(n->right, key);
-                return n;
-            }else{
-                return bst_insert(n->right, key);
-            }
-        }
+    }else if(n->key >= key){ //Valuto il sottoalbero sinistro
+        n->left = bst_insert(n->left, key); //Chiamata ricorsiva a bst_insert con radice primo nodo del sottoalbero sinistro
+    }else{ //Valuto il sottoalbero destro
+        n->right = bst_insert(n->right, key); //Chiamata ricorsiva a bst_insert con radice primo nodo del sottoalbero destro
     }
+
+    return n;
 }
 
-void print_bst(NODE* n){
+void bst_print(NODE* n){ //Stampa il bst inorder
     if(n != NULL){
-        print_bst(n->left);
+        bst_print(n->left);
         printf("%c ", n->key);
-        print_bst(n->right);
+        bst_print(n->right);
+        
     }
 }
 
+NODE* read_input(){ //Legge la parola e lancia bst_insert per creare l'albero della parola
+    char c = getchar();
+    NODE* root = NULL;
+    while('a'<= c && c <= 'z'){
+        root = bst_insert(root, c);
+        c = getchar(); 
+    }
+    return root;
+}
