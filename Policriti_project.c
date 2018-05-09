@@ -22,7 +22,7 @@ int main(){
 
     NODE* root = read_input();
     bst_print(root);
-    printf("\nMin: %d\nMax: %d\n", m, M);
+    //printf("\nMin: %d\nMax: %d\n", m, M);
 
 
     return 0;
