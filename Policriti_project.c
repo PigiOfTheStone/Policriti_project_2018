@@ -15,8 +15,8 @@ struct node
 typedef struct list_node LIST_NODE;
 struct list_node
 {
-    struct node *next;
-    struct NODE *position; //Posizione della foglia nell'albero
+    struct list_node *next;
+    NODE *position; //Posizione della foglia nell'albero
 };
 
 //Prototipi
@@ -25,9 +25,9 @@ void bst_print(NODE* n);
 NODE* read_input();
 int max(int* counter);
 int min(int* counter);
-NODE* bst_search_for_leaf(NODE* root, char key);
+LIST_NODE* bst_search_for_leaf(NODE* root, LIST_NODE* last);
 LIST_NODE* create_list();
-LIST_NODE* add_to_list(char key, LIST_NODE* last);
+LIST_NODE* add_to_list(NODE* leaf, LIST_NODE* last);
 
 //Variabili globali 
 int M;
@@ -113,7 +113,7 @@ int min(int* counter){ //Calcola il valore di m i.e. il numero minimo di occorre
 
 LIST_NODE* bst_search_for_leaf(NODE* root, LIST_NODE* last){ //Cerca nel BST i nodi che sono foglia e chiama il creatore di lista di adiacenza
     if(root != NULL){
-        if(root->left == NULL & root->right == NULL){
+        if(root->left == NULL && root->right == NULL){
             last = add_to_list(root, last);
         }else{
             last = bst_search_for_leaf(root->left, last);
